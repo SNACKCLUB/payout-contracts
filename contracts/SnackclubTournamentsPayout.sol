@@ -29,7 +29,7 @@ contract SnackclubTournamentsPayout is RewardControl {
             getTokenBalance(r.tokenContract) >= r.amount,
             "insufficient token balance"
         );
-        require(token.transfer(msg.sender, r.amount), "transfer failed");
+        require(token.safeTransfer(msg.sender, r.amount), "transfer failed");
 
         delete reward[hashedWallet];
         emit RewardClaimed(msg.sender, r.amount, r.tokenContract);
@@ -46,7 +46,7 @@ contract SnackclubTournamentsPayout is RewardControl {
         require(getTokenBalance(tokenContract) >= amount, "Insufficient funds");
 
         IERC20 token = IERC20(tokenContract);
-        require(token.transfer(msg.sender, amount), "transfer failed");
+        require(token.safeTransfer(msg.sender, amount), "transfer failed");
     }
 
     function depositToken(
@@ -55,7 +55,7 @@ contract SnackclubTournamentsPayout is RewardControl {
     ) public onlyAdminOrOperator {
         IERC20 token = IERC20(tokenContract);
         require(
-            token.transferFrom(msg.sender, address(this), amount),
+            token.safeTransferFrom(msg.sender, address(this), amount),
             "Transfer failed"
         );
     }
