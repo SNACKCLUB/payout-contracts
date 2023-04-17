@@ -11,8 +11,8 @@ contract SnackclubTournamentsPayout is RewardControl {
         address tokenContract
     );
 
-    function claimReward(string memory secret) public {
-        bytes32 hashedWallet = hashAddressAndString(msg.sender, secret);
+    function claimReward(string memory discriminator) public {
+        bytes32 hashedWallet = hashAddressAndString(msg.sender, discriminator);
 
         Reward memory r = reward[hashedWallet];
 
