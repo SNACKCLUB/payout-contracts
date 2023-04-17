@@ -29,9 +29,10 @@ contract SnackclubTournamentsPayout is RewardControl {
             getTokenBalance(r.tokenContract) >= r.amount,
             "insufficient token balance"
         );
-        require(token.safeTransfer(msg.sender, r.amount), "transfer failed");
 
         delete reward[hashedWallet];
+        require(token.safeTransfer(msg.sender, r.amount), "transfer failed");
+
         emit RewardClaimed(msg.sender, r.amount, r.tokenContract);
     }
 
