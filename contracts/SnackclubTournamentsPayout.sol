@@ -2,9 +2,11 @@
 pragma solidity ^0.8.11;
 
 import "./RewardControl.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 contract SnackclubTournamentsPayout is RewardControl {
+    using SafeERC20 for IERC20;
+
     event RewardClaimed(
         address indexed to,
         uint256 amount,
@@ -31,7 +33,7 @@ contract SnackclubTournamentsPayout is RewardControl {
         );
 
         delete reward[hashedWallet];
-        require(token.safeTransfer(msg.sender, r.amount), "transfer failed");
+        token.safeTransfer(msg.sender, r.amount);
 
         emit RewardClaimed(msg.sender, r.amount, r.tokenContract);
     }
@@ -47,7 +49,7 @@ contract SnackclubTournamentsPayout is RewardControl {
         require(getTokenBalance(tokenContract) >= amount, "Insufficient funds");
 
         IERC20 token = IERC20(tokenContract);
-        require(token.safeTransfer(msg.sender, amount), "transfer failed");
+        token.safeTransfer(msg.sender, amount);
     }
 
     function depositToken(
@@ -55,9 +57,6 @@ contract SnackclubTournamentsPayout is RewardControl {
         address tokenContract
     ) public onlyAdminOrOperator {
         IERC20 token = IERC20(tokenContract);
-        require(
-            token.safeTransferFrom(msg.sender, address(this), amount),
-            "Transfer failed"
-        );
+        token.safeTransferFrom(msg.sender, address(this), amount);
     }
 }
