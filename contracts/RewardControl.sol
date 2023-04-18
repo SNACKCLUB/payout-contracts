@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.11;
+pragma solidity 0.8.11;
 
 import "./RoleControl.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";

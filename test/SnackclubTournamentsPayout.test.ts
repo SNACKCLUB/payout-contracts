@@ -1,5 +1,5 @@
-import { ethers, network } from 'hardhat';
-import { Signer, Contract } from 'ethers';
+import { ethers } from 'hardhat';
+import { Contract } from 'ethers';
 import { expect } from 'chai';
 import { parseEther } from 'ethers/lib/utils';
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
