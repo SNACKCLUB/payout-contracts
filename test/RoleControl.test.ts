@@ -7,10 +7,12 @@ describe('RoleControl', () => {
   let roleControl: Contract;
   let owner: SignerWithAddress;
   let admin: SignerWithAddress;
+  let admin2: SignerWithAddress;
   let operator: SignerWithAddress;
+  let operator2: SignerWithAddress;
 
   beforeEach(async () => {
-    [owner, admin, operator] = await ethers.getSigners();
+    [owner, admin, admin2, operator, operator2] = await ethers.getSigners();
     const RoleControlFactory = await ethers.getContractFactory('RoleControl');
     roleControl = await RoleControlFactory.deploy();
     await roleControl.deployed();
@@ -32,13 +34,18 @@ describe('RoleControl', () => {
   it('should remove an operator', async () => {
     const OPERATOR_ROLE = ethers.utils.id('operator');
     await roleControl.connect(owner).addOperator(operator.address);
+    await roleControl.connect(owner).addOperator(operator2.address);
 
     expect(await roleControl.hasRole(OPERATOR_ROLE, operator.address)).to.be
+      .true;
+    expect(await roleControl.hasRole(OPERATOR_ROLE, operator2.address)).to.be
       .true;
 
     await roleControl.connect(owner).removeOperator(operator.address);
     expect(await roleControl.hasRole(OPERATOR_ROLE, operator.address)).to.be
       .false;
+    expect(await roleControl.hasRole(OPERATOR_ROLE, operator2.address)).to.be
+      .true;
   });
 
   it('should revert when a non-admin tries to add an operator', async () => {
@@ -63,11 +70,14 @@ describe('RoleControl', () => {
   it('should remove an admin', async () => {
     const ADMIN_ROLE = await roleControl.ADMIN_ROLE();
     await roleControl.connect(owner).addAdmin(admin.address);
+    await roleControl.connect(owner).addAdmin(admin2.address);
 
     expect(await roleControl.hasRole(ADMIN_ROLE, admin.address)).to.be.true;
+    expect(await roleControl.hasRole(ADMIN_ROLE, admin2.address)).to.be.true;
 
     await roleControl.connect(owner).removeAdmin(admin.address);
     expect(await roleControl.hasRole(ADMIN_ROLE, admin.address)).to.be.false;
+    expect(await roleControl.hasRole(ADMIN_ROLE, admin2.address)).to.be.true;
   });
 
   it('should revert when a non-admin tries to add an admin', async () => {
