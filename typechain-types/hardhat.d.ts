@@ -21,9 +21,17 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IAccessControl__factory>;
     getContractFactory(
+      name: "ERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20__factory>;
+    getContractFactory(
       name: "IERC20Permit",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20Permit__factory>;
+    getContractFactory(
+      name: "IERC20Metadata",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20Metadata__factory>;
     getContractFactory(
       name: "IERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -36,6 +44,10 @@ declare module "hardhat/types/runtime" {
       name: "IERC165",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165__factory>;
+    getContractFactory(
+      name: "MockToken",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MockToken__factory>;
     getContractFactory(
       name: "RewardControl",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -60,10 +72,20 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IAccessControl>;
     getContractAt(
+      name: "ERC20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20>;
+    getContractAt(
       name: "IERC20Permit",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC20Permit>;
+    getContractAt(
+      name: "IERC20Metadata",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20Metadata>;
     getContractAt(
       name: "IERC20",
       address: string,
@@ -79,6 +101,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165>;
+    getContractAt(
+      name: "MockToken",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MockToken>;
     getContractAt(
       name: "RewardControl",
       address: string,
