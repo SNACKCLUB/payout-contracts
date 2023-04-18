@@ -29,7 +29,7 @@ import type {
 
 export declare namespace RewardControl {
   export type RewardArgsStruct = {
-    secret: PromiseOrValue<string>;
+    discriminator: PromiseOrValue<string>;
     amount: PromiseOrValue<BigNumberish>;
     tokenContract: PromiseOrValue<string>;
     claimableAt: PromiseOrValue<BigNumberish>;
@@ -43,7 +43,7 @@ export declare namespace RewardControl {
     BigNumber,
     string
   ] & {
-    secret: string;
+    discriminator: string;
     amount: BigNumber;
     tokenContract: string;
     claimableAt: BigNumber;
@@ -53,7 +53,10 @@ export declare namespace RewardControl {
 
 export interface SnackclubTournamentsPayoutInterface extends utils.Interface {
   functions: {
+    "ADMIN_ROLE()": FunctionFragment;
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
+    "OPERATOR_ROLE()": FunctionFragment;
+    "addAdmin(address)": FunctionFragment;
     "addOperator(address)": FunctionFragment;
     "claimReward(string)": FunctionFragment;
     "depositToken(uint256,address)": FunctionFragment;
@@ -62,14 +65,12 @@ export interface SnackclubTournamentsPayoutInterface extends utils.Interface {
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
     "hashAddressAndString(address,string)": FunctionFragment;
-    "isAdmin(address)": FunctionFragment;
-    "isOperator(address)": FunctionFragment;
+    "removeAdmin(address)": FunctionFragment;
     "removeOperator(address)": FunctionFragment;
     "renewReward(string,address)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
     "reward(bytes32)": FunctionFragment;
-    "storeReward((string,uint256,address,uint256,address))": FunctionFragment;
     "storeRewards((string,uint256,address,uint256,address)[])": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "withdraw(uint256,address)": FunctionFragment;
@@ -77,7 +78,10 @@ export interface SnackclubTournamentsPayoutInterface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
+      | "ADMIN_ROLE"
       | "DEFAULT_ADMIN_ROLE"
+      | "OPERATOR_ROLE"
+      | "addAdmin"
       | "addOperator"
       | "claimReward"
       | "depositToken"
@@ -86,22 +90,32 @@ export interface SnackclubTournamentsPayoutInterface extends utils.Interface {
       | "grantRole"
       | "hasRole"
       | "hashAddressAndString"
-      | "isAdmin"
-      | "isOperator"
+      | "removeAdmin"
       | "removeOperator"
       | "renewReward"
       | "renounceRole"
       | "revokeRole"
       | "reward"
-      | "storeReward"
       | "storeRewards"
       | "supportsInterface"
       | "withdraw"
   ): FunctionFragment;
 
   encodeFunctionData(
+    functionFragment: "ADMIN_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "DEFAULT_ADMIN_ROLE",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "OPERATOR_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addAdmin",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "addOperator",
@@ -136,11 +150,7 @@ export interface SnackclubTournamentsPayoutInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "isAdmin",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isOperator",
+    functionFragment: "removeAdmin",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -164,10 +174,6 @@ export interface SnackclubTournamentsPayoutInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
-    functionFragment: "storeReward",
-    values: [RewardControl.RewardArgsStruct]
-  ): string;
-  encodeFunctionData(
     functionFragment: "storeRewards",
     values: [RewardControl.RewardArgsStruct[]]
   ): string;
@@ -180,10 +186,16 @@ export interface SnackclubTournamentsPayoutInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
   ): string;
 
+  decodeFunctionResult(functionFragment: "ADMIN_ROLE", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "DEFAULT_ADMIN_ROLE",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "OPERATOR_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "addAdmin", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "addOperator",
     data: BytesLike
@@ -210,8 +222,10 @@ export interface SnackclubTournamentsPayoutInterface extends utils.Interface {
     functionFragment: "hashAddressAndString",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "isAdmin", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "isOperator", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "removeAdmin",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "removeOperator",
     data: BytesLike
@@ -226,10 +240,6 @@ export interface SnackclubTournamentsPayoutInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "reward", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "storeReward",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "storeRewards",
     data: BytesLike
@@ -329,7 +339,16 @@ export interface SnackclubTournamentsPayout extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
+    OPERATOR_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
+    addAdmin(
+      _admin: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     addOperator(
       _operator: PromiseOrValue<string>,
@@ -337,7 +356,7 @@ export interface SnackclubTournamentsPayout extends BaseContract {
     ): Promise<ContractTransaction>;
 
     claimReward(
-      secret: PromiseOrValue<string>,
+      discriminator: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -371,19 +390,14 @@ export interface SnackclubTournamentsPayout extends BaseContract {
 
     hashAddressAndString(
       _address: PromiseOrValue<string>,
-      secret: PromiseOrValue<string>,
+      discriminator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    isAdmin(
-      _address: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    isOperator(
-      _address: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
+    removeAdmin(
+      _admin: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     removeOperator(
       _operator: PromiseOrValue<string>,
@@ -391,7 +405,7 @@ export interface SnackclubTournamentsPayout extends BaseContract {
     ): Promise<ContractTransaction>;
 
     renewReward(
-      secret: PromiseOrValue<string>,
+      discriminator: PromiseOrValue<string>,
       receiver: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -419,11 +433,6 @@ export interface SnackclubTournamentsPayout extends BaseContract {
       }
     >;
 
-    storeReward(
-      args: RewardControl.RewardArgsStruct,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     storeRewards(
       rewards: RewardControl.RewardArgsStruct[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -441,7 +450,16 @@ export interface SnackclubTournamentsPayout extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
+  ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
+
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
+
+  OPERATOR_ROLE(overrides?: CallOverrides): Promise<string>;
+
+  addAdmin(
+    _admin: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   addOperator(
     _operator: PromiseOrValue<string>,
@@ -449,7 +467,7 @@ export interface SnackclubTournamentsPayout extends BaseContract {
   ): Promise<ContractTransaction>;
 
   claimReward(
-    secret: PromiseOrValue<string>,
+    discriminator: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -483,19 +501,14 @@ export interface SnackclubTournamentsPayout extends BaseContract {
 
   hashAddressAndString(
     _address: PromiseOrValue<string>,
-    secret: PromiseOrValue<string>,
+    discriminator: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<string>;
 
-  isAdmin(
-    _address: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  isOperator(
-    _address: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
+  removeAdmin(
+    _admin: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   removeOperator(
     _operator: PromiseOrValue<string>,
@@ -503,7 +516,7 @@ export interface SnackclubTournamentsPayout extends BaseContract {
   ): Promise<ContractTransaction>;
 
   renewReward(
-    secret: PromiseOrValue<string>,
+    discriminator: PromiseOrValue<string>,
     receiver: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -531,11 +544,6 @@ export interface SnackclubTournamentsPayout extends BaseContract {
     }
   >;
 
-  storeReward(
-    args: RewardControl.RewardArgsStruct,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   storeRewards(
     rewards: RewardControl.RewardArgsStruct[],
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -553,7 +561,16 @@ export interface SnackclubTournamentsPayout extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
+
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
+
+    OPERATOR_ROLE(overrides?: CallOverrides): Promise<string>;
+
+    addAdmin(
+      _admin: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     addOperator(
       _operator: PromiseOrValue<string>,
@@ -561,7 +578,7 @@ export interface SnackclubTournamentsPayout extends BaseContract {
     ): Promise<void>;
 
     claimReward(
-      secret: PromiseOrValue<string>,
+      discriminator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -595,19 +612,14 @@ export interface SnackclubTournamentsPayout extends BaseContract {
 
     hashAddressAndString(
       _address: PromiseOrValue<string>,
-      secret: PromiseOrValue<string>,
+      discriminator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<string>;
 
-    isAdmin(
-      _address: PromiseOrValue<string>,
+    removeAdmin(
+      _admin: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    isOperator(
-      _address: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
+    ): Promise<void>;
 
     removeOperator(
       _operator: PromiseOrValue<string>,
@@ -615,7 +627,7 @@ export interface SnackclubTournamentsPayout extends BaseContract {
     ): Promise<void>;
 
     renewReward(
-      secret: PromiseOrValue<string>,
+      discriminator: PromiseOrValue<string>,
       receiver: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -642,11 +654,6 @@ export interface SnackclubTournamentsPayout extends BaseContract {
         claimableAt: BigNumber;
       }
     >;
-
-    storeReward(
-      args: RewardControl.RewardArgsStruct,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     storeRewards(
       rewards: RewardControl.RewardArgsStruct[],
@@ -712,7 +719,16 @@ export interface SnackclubTournamentsPayout extends BaseContract {
   };
 
   estimateGas: {
+    ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
+    OPERATOR_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
+    addAdmin(
+      _admin: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
     addOperator(
       _operator: PromiseOrValue<string>,
@@ -720,7 +736,7 @@ export interface SnackclubTournamentsPayout extends BaseContract {
     ): Promise<BigNumber>;
 
     claimReward(
-      secret: PromiseOrValue<string>,
+      discriminator: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -754,18 +770,13 @@ export interface SnackclubTournamentsPayout extends BaseContract {
 
     hashAddressAndString(
       _address: PromiseOrValue<string>,
-      secret: PromiseOrValue<string>,
+      discriminator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    isAdmin(
-      _address: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    isOperator(
-      _address: PromiseOrValue<string>,
-      overrides?: CallOverrides
+    removeAdmin(
+      _admin: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     removeOperator(
@@ -774,7 +785,7 @@ export interface SnackclubTournamentsPayout extends BaseContract {
     ): Promise<BigNumber>;
 
     renewReward(
-      secret: PromiseOrValue<string>,
+      discriminator: PromiseOrValue<string>,
       receiver: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -794,11 +805,6 @@ export interface SnackclubTournamentsPayout extends BaseContract {
     reward(
       arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    storeReward(
-      args: RewardControl.RewardArgsStruct,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     storeRewards(
@@ -819,8 +825,17 @@ export interface SnackclubTournamentsPayout extends BaseContract {
   };
 
   populateTransaction: {
+    ADMIN_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     DEFAULT_ADMIN_ROLE(
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    OPERATOR_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    addAdmin(
+      _admin: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     addOperator(
@@ -829,7 +844,7 @@ export interface SnackclubTournamentsPayout extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     claimReward(
-      secret: PromiseOrValue<string>,
+      discriminator: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -863,18 +878,13 @@ export interface SnackclubTournamentsPayout extends BaseContract {
 
     hashAddressAndString(
       _address: PromiseOrValue<string>,
-      secret: PromiseOrValue<string>,
+      discriminator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    isAdmin(
-      _address: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    isOperator(
-      _address: PromiseOrValue<string>,
-      overrides?: CallOverrides
+    removeAdmin(
+      _admin: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     removeOperator(
@@ -883,7 +893,7 @@ export interface SnackclubTournamentsPayout extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     renewReward(
-      secret: PromiseOrValue<string>,
+      discriminator: PromiseOrValue<string>,
       receiver: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
@@ -903,11 +913,6 @@ export interface SnackclubTournamentsPayout extends BaseContract {
     reward(
       arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    storeReward(
-      args: RewardControl.RewardArgsStruct,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     storeRewards(

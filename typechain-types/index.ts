@@ -10,6 +10,8 @@ export type { AccessControl } from "./@openzeppelin/contracts/access/AccessContr
 export { AccessControl__factory } from "./factories/@openzeppelin/contracts/access/AccessControl__factory";
 export type { IAccessControl } from "./@openzeppelin/contracts/access/IAccessControl";
 export { IAccessControl__factory } from "./factories/@openzeppelin/contracts/access/IAccessControl__factory";
+export type { IERC20Permit } from "./@openzeppelin/contracts/token/ERC20/extensions/draft-IERC20Permit.sol/IERC20Permit";
+export { IERC20Permit__factory } from "./factories/@openzeppelin/contracts/token/ERC20/extensions/draft-IERC20Permit.sol/IERC20Permit__factory";
 export type { IERC20 } from "./@openzeppelin/contracts/token/ERC20/IERC20";
 export { IERC20__factory } from "./factories/@openzeppelin/contracts/token/ERC20/IERC20__factory";
 export type { ERC165 } from "./@openzeppelin/contracts/utils/introspection/ERC165";

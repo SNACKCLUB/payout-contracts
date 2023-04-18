@@ -28,13 +28,15 @@ import type {
 
 export interface RoleControlInterface extends utils.Interface {
   functions: {
+    "ADMIN_ROLE()": FunctionFragment;
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
+    "OPERATOR_ROLE()": FunctionFragment;
+    "addAdmin(address)": FunctionFragment;
     "addOperator(address)": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
-    "isAdmin(address)": FunctionFragment;
-    "isOperator(address)": FunctionFragment;
+    "removeAdmin(address)": FunctionFragment;
     "removeOperator(address)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
@@ -43,13 +45,15 @@ export interface RoleControlInterface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
+      | "ADMIN_ROLE"
       | "DEFAULT_ADMIN_ROLE"
+      | "OPERATOR_ROLE"
+      | "addAdmin"
       | "addOperator"
       | "getRoleAdmin"
       | "grantRole"
       | "hasRole"
-      | "isAdmin"
-      | "isOperator"
+      | "removeAdmin"
       | "removeOperator"
       | "renounceRole"
       | "revokeRole"
@@ -57,8 +61,20 @@ export interface RoleControlInterface extends utils.Interface {
   ): FunctionFragment;
 
   encodeFunctionData(
+    functionFragment: "ADMIN_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "DEFAULT_ADMIN_ROLE",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "OPERATOR_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addAdmin",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "addOperator",
@@ -77,11 +93,7 @@ export interface RoleControlInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "isAdmin",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isOperator",
+    functionFragment: "removeAdmin",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -101,10 +113,16 @@ export interface RoleControlInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
 
+  decodeFunctionResult(functionFragment: "ADMIN_ROLE", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "DEFAULT_ADMIN_ROLE",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "OPERATOR_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "addAdmin", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "addOperator",
     data: BytesLike
@@ -115,8 +133,10 @@ export interface RoleControlInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "isAdmin", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "isOperator", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "removeAdmin",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "removeOperator",
     data: BytesLike
@@ -206,7 +226,16 @@ export interface RoleControl extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
+    OPERATOR_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
+    addAdmin(
+      _admin: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     addOperator(
       _operator: PromiseOrValue<string>,
@@ -230,15 +259,10 @@ export interface RoleControl extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    isAdmin(
-      _address: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    isOperator(
-      _address: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
+    removeAdmin(
+      _admin: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     removeOperator(
       _operator: PromiseOrValue<string>,
@@ -263,7 +287,16 @@ export interface RoleControl extends BaseContract {
     ): Promise<[boolean]>;
   };
 
+  ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
+
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
+
+  OPERATOR_ROLE(overrides?: CallOverrides): Promise<string>;
+
+  addAdmin(
+    _admin: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   addOperator(
     _operator: PromiseOrValue<string>,
@@ -287,15 +320,10 @@ export interface RoleControl extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  isAdmin(
-    _address: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  isOperator(
-    _address: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
+  removeAdmin(
+    _admin: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   removeOperator(
     _operator: PromiseOrValue<string>,
@@ -320,7 +348,16 @@ export interface RoleControl extends BaseContract {
   ): Promise<boolean>;
 
   callStatic: {
+    ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
+
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
+
+    OPERATOR_ROLE(overrides?: CallOverrides): Promise<string>;
+
+    addAdmin(
+      _admin: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     addOperator(
       _operator: PromiseOrValue<string>,
@@ -344,15 +381,10 @@ export interface RoleControl extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    isAdmin(
-      _address: PromiseOrValue<string>,
+    removeAdmin(
+      _admin: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    isOperator(
-      _address: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
+    ): Promise<void>;
 
     removeOperator(
       _operator: PromiseOrValue<string>,
@@ -413,7 +445,16 @@ export interface RoleControl extends BaseContract {
   };
 
   estimateGas: {
+    ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
+    OPERATOR_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
+    addAdmin(
+      _admin: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
     addOperator(
       _operator: PromiseOrValue<string>,
@@ -437,14 +478,9 @@ export interface RoleControl extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    isAdmin(
-      _address: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    isOperator(
-      _address: PromiseOrValue<string>,
-      overrides?: CallOverrides
+    removeAdmin(
+      _admin: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     removeOperator(
@@ -471,8 +507,17 @@ export interface RoleControl extends BaseContract {
   };
 
   populateTransaction: {
+    ADMIN_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     DEFAULT_ADMIN_ROLE(
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    OPERATOR_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    addAdmin(
+      _admin: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     addOperator(
@@ -497,14 +542,9 @@ export interface RoleControl extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    isAdmin(
-      _address: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    isOperator(
-      _address: PromiseOrValue<string>,
-      overrides?: CallOverrides
+    removeAdmin(
+      _admin: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     removeOperator(

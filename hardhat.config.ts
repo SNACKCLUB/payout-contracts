@@ -14,9 +14,7 @@ const POLYGON_MUMBAI_API_URL = `https://polygon-mumbai.g.alchemy.com/v2/${MUMBAI
 
 const config: HardhatUserConfig = {
   solidity: '0.8.11',
-  defaultNetwork: 'polygon_mumbai',
   networks: {
-    hardhat: {},
     polygon_mumbai: {
       url: POLYGON_MUMBAI_API_URL,
       accounts: [`0x${WALLET_PRIVATE_KEY}`],
