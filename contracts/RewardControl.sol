@@ -48,7 +48,9 @@ contract RewardControl is RoleControl {
         reward[hashedWallet].claimableAt = block.timestamp;
     }
 
-    function storeRewards(RewardArgs[] memory rewards) public {
+    function storeRewards(
+        RewardArgs[] memory rewards
+    ) public onlyAdminOrOperator {
         for (uint256 i = 0; i < rewards.length; i++) {
             RewardArgs memory r = rewards[i];
 
