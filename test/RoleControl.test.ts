@@ -62,13 +62,13 @@ describe('RoleControl', () => {
   });
 
   it('should add an admin', async () => {
-    const ADMIN_ROLE = await roleControl.ADMIN_ROLE();
+    const ADMIN_ROLE = await roleControl.DEFAULT_ADMIN_ROLE();
     await roleControl.connect(owner).addAdmin(admin.address);
     expect(await roleControl.hasRole(ADMIN_ROLE, admin.address)).to.be.true;
   });
 
   it('should remove an admin', async () => {
-    const ADMIN_ROLE = await roleControl.ADMIN_ROLE();
+    const ADMIN_ROLE = await roleControl.DEFAULT_ADMIN_ROLE();
     await roleControl.connect(owner).addAdmin(admin.address);
     await roleControl.connect(owner).addAdmin(admin2.address);
 

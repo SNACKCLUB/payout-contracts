@@ -28,7 +28,6 @@ import type {
 
 export interface RoleControlInterface extends utils.Interface {
   functions: {
-    "ADMIN_ROLE()": FunctionFragment;
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "OPERATOR_ROLE()": FunctionFragment;
     "addAdmin(address)": FunctionFragment;
@@ -45,7 +44,6 @@ export interface RoleControlInterface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "ADMIN_ROLE"
       | "DEFAULT_ADMIN_ROLE"
       | "OPERATOR_ROLE"
       | "addAdmin"
@@ -60,10 +58,6 @@ export interface RoleControlInterface extends utils.Interface {
       | "supportsInterface"
   ): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: "ADMIN_ROLE",
-    values?: undefined
-  ): string;
   encodeFunctionData(
     functionFragment: "DEFAULT_ADMIN_ROLE",
     values?: undefined
@@ -113,7 +107,6 @@ export interface RoleControlInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
 
-  decodeFunctionResult(functionFragment: "ADMIN_ROLE", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "DEFAULT_ADMIN_ROLE",
     data: BytesLike
@@ -226,8 +219,6 @@ export interface RoleControl extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
-
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
     OPERATOR_ROLE(overrides?: CallOverrides): Promise<[string]>;
@@ -286,8 +277,6 @@ export interface RoleControl extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
   };
-
-  ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
@@ -348,8 +337,6 @@ export interface RoleControl extends BaseContract {
   ): Promise<boolean>;
 
   callStatic: {
-    ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
-
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
     OPERATOR_ROLE(overrides?: CallOverrides): Promise<string>;
@@ -445,8 +432,6 @@ export interface RoleControl extends BaseContract {
   };
 
   estimateGas: {
-    ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
-
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
     OPERATOR_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
@@ -507,8 +492,6 @@ export interface RoleControl extends BaseContract {
   };
 
   populateTransaction: {
-    ADMIN_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     DEFAULT_ADMIN_ROLE(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

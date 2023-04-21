@@ -53,7 +53,6 @@ export declare namespace RewardControl {
 
 export interface SnackclubTournamentsPayoutInterface extends utils.Interface {
   functions: {
-    "ADMIN_ROLE()": FunctionFragment;
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "OPERATOR_ROLE()": FunctionFragment;
     "addAdmin(address)": FunctionFragment;
@@ -78,7 +77,6 @@ export interface SnackclubTournamentsPayoutInterface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "ADMIN_ROLE"
       | "DEFAULT_ADMIN_ROLE"
       | "OPERATOR_ROLE"
       | "addAdmin"
@@ -101,10 +99,6 @@ export interface SnackclubTournamentsPayoutInterface extends utils.Interface {
       | "withdraw"
   ): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: "ADMIN_ROLE",
-    values?: undefined
-  ): string;
   encodeFunctionData(
     functionFragment: "DEFAULT_ADMIN_ROLE",
     values?: undefined
@@ -186,7 +180,6 @@ export interface SnackclubTournamentsPayoutInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
   ): string;
 
-  decodeFunctionResult(functionFragment: "ADMIN_ROLE", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "DEFAULT_ADMIN_ROLE",
     data: BytesLike
@@ -339,8 +332,6 @@ export interface SnackclubTournamentsPayout extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
-
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
     OPERATOR_ROLE(overrides?: CallOverrides): Promise<[string]>;
@@ -449,8 +440,6 @@ export interface SnackclubTournamentsPayout extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
-
-  ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
@@ -561,8 +550,6 @@ export interface SnackclubTournamentsPayout extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
-
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
     OPERATOR_ROLE(overrides?: CallOverrides): Promise<string>;
@@ -719,8 +706,6 @@ export interface SnackclubTournamentsPayout extends BaseContract {
   };
 
   estimateGas: {
-    ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
-
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
     OPERATOR_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
@@ -825,8 +810,6 @@ export interface SnackclubTournamentsPayout extends BaseContract {
   };
 
   populateTransaction: {
-    ADMIN_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     DEFAULT_ADMIN_ROLE(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
